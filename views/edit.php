@@ -20,6 +20,7 @@
         <div class="alert alert-danger"><?=$error_msg?></div>
         <?php endif ?>
         <form action="" method="post" enctype="multipart/form-data">
+            <?= csrf_field() ?>
             <?php 
             foreach($fields as $key => $field): 
                 $label = $field;
