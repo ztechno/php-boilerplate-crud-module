@@ -122,7 +122,7 @@ class CrudRepository
         return true;
     }
 
-    function dataTable($fields)
+    function dataTable($fields, $customAction = false)
     {
         $draw    = $_GET['draw'];
         $start   = $_GET['start'];
@@ -153,18 +153,7 @@ class CrudRepository
             $where = "WHERE (".implode(' OR ',$_where).")";
         }
 
-        if($filter)
-        {
-            $filter_query = [];
-            foreach($filter as $f_key => $f_value)
-            {
-                $filter_query[] = "$f_key = '$f_value'";
-            }
-
-            $filter_query = implode(' AND ', $filter_query);
-
-            $where = (empty($where) ? 'WHERE ' : ' AND ') . $filter_query;
-        }
+        
 
         $col_order = $order[0]['column']-1;
         $col_order = $col_order < 0 ? 'id' : $columns[$col_order];
@@ -173,11 +162,25 @@ class CrudRepository
         if(file_exists($hookFile))
         {
             $db = $this->db;
+            $table = $this->table;
             $override = require $hookFile;
             extract($override);
         }
         else
         {
+            if($filter)
+            {
+                $filter_query = [];
+                foreach($filter as $f_key => $f_value)
+                {
+                    $filter_query[] = "$f_key = '$f_value'";
+                }
+
+                $filter_query = implode(' AND ', $filter_query);
+
+                $where = (empty($where) ? 'WHERE ' : ' AND ') . $filter_query;
+            }
+
             $this->db->query = "SELECT * FROM $this->table $where ORDER BY ".$col_order." ".$order[0]['dir']." LIMIT $start,$length";
             $data  = $this->db->exec('all');
     
@@ -229,8 +232,16 @@ class CrudRepository
 
             $action .= $this->actionButton($d);
 
-            $action .= '<a href="'.routeTo('crud/edit',['table'=>$this->table,'id'=>$d->id]).'" class="btn btn-sm btn-warning"><i class="fas fa-pencil-alt"></i> '.__('crud.label.edit').'</a> ';
-            $action .= '<a href="'.routeTo('crud/delete',['table'=>$this->table,'id'=>$d->id]).'" onclick="if(confirm(\''.__('crud.label.confirm_msg').'\')){return true}else{return false}" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> '.__('crud.label.delete').'</a>';
+            if($customAction)
+            {
+                $action .= $customAction($d);
+            }
+            else
+            {
+                $action .= '<a href="'.routeTo('crud/edit',['table'=>$this->table,'id'=>$d->id]).'" class="btn btn-sm btn-warning"><i class="fas fa-pencil-alt"></i> '.__('crud.label.edit').'</a> ';
+                $action .= '<a href="'.routeTo('crud/delete',['table'=>$this->table,'id'=>$d->id]).'" onclick="if(confirm(\''.__('crud.label.confirm_msg').'\')){return true}else{return false}" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> '.__('crud.label.delete').'</a>';
+            }
+
             
             $results[$key][] = $action;
         }
