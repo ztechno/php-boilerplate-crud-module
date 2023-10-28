@@ -238,8 +238,13 @@ class CrudRepository
             }
             else
             {
-                $action .= '<a href="'.routeTo('crud/edit',['table'=>$this->table,'id'=>$d->id]).'" class="btn btn-sm btn-warning"><i class="fas fa-pencil-alt"></i> '.__('crud.label.edit').'</a> ';
-                $action .= '<a href="'.routeTo('crud/delete',['table'=>$this->table,'id'=>$d->id]).'" onclick="if(confirm(\''.__('crud.label.confirm_msg').'\')){return true}else{return false}" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> '.__('crud.label.delete').'</a>';
+                $params = ['table'=>$this->table,'id'=>$d->id];
+                if(isset($_GET['filter']))
+                {
+                    $params['filter'] = $_GET['filter'];
+                }
+                $action .= '<a href="'.routeTo('crud/edit',$params).'" class="btn btn-sm btn-warning"><i class="fas fa-pencil-alt"></i> '.__('crud.label.edit').'</a> ';
+                $action .= '<a href="'.routeTo('crud/delete',$params).'" onclick="if(confirm(\''.__('crud.label.confirm_msg').'\')){return true}else{return false}" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> '.__('crud.label.delete').'</a>';
             }
 
             
