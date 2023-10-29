@@ -17,7 +17,10 @@
     </div>
     <div class="card-body">
         <?php if ($success_msg) : ?>
-            <div class="alert alert-success"><?= $success_msg ?></div>
+        <div class="alert alert-success"><?= $success_msg ?></div>
+        <?php endif ?>
+        <?php if ($error_msg) : ?>
+        <div class="alert alert-danger"><?= $error_msg ?></div>
         <?php endif ?>
         <div class="table-responsive table-hover table-sales">
             <table class="table table-bordered datatable-crud" style="width:100%">

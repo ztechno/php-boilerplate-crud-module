@@ -9,6 +9,7 @@ $table      = tableFields($tableName);
 $fields     = $table->getFields();
 $module     = $table->getModule();
 $success_msg = get_flash_msg('success');
+$error_msg   = get_flash_msg('error');
 
 // get data
 $crudRepository = new CrudRepository($tableName);
@@ -41,4 +42,4 @@ Page::setBreadcrumbs([
 
 Page::pushFoot("<script src='".asset('assets/crud/js/crud.js')."'></script>");
 
-return view('crud/views/index', compact('data', 'fields', 'tableName', 'success_msg'));
+return view('crud/views/index', compact('data', 'fields', 'tableName', 'success_msg', 'error_msg'));
