@@ -18,20 +18,32 @@
             foreach($fields as $key => $field): 
                 $label = $field;
                 $type  = "text";
+                $attr = [
+                    'class'=>"form-control"
+                ];
                 if(is_array($field))
                 {
                     $field_data = $field;
                     $field = $key;
                     $label = $field_data['label'];
                     if(isset($field_data['type']))
-                    $type  = $field_data['type'];
+                    {
+                        $type  = $field_data['type'];
+                    }
+
+                    if(isset($field_data['attr']))
+                    {
+                        $attr = array_merge($attr, $field_data['attr']);
+                    }
                 }
                 $label = _ucwords($label);
                 $fieldname = $type == 'file' ? $field : $tableName."[".$field."]";
+                $attr = array_merge($attr, ["placeholder"=>$label,"value"=>$old[$field]??$data->{$field}]);
+                
             ?>
             <div class="form-group mb-3">
                 <label class="mb-2"><?=$label?></label>
-                <?= \Core\Form::input($type, $fieldname, ['class'=>"form-control","placeholder"=>$label,"value"=>$old[$field]??$data->{$field}]) ?>
+                <?= \Core\Form::input($type, $fieldname, $attr) ?>
             </div>
             <?php endforeach ?>
             <div class="form-group">
