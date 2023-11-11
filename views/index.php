@@ -3,14 +3,7 @@
     <div class="card-header d-flex flex-grow-1 align-items-center">
         <p class="h4 m-0"><?php get_title() ?></p>
         <div class="right-button ms-auto">
-            <?php 
-            $params = ['table' => $tableName];
-            if(isset($_GET['filter']))
-            {
-                $params['filter'] = $_GET['filter'];
-            }
-            ?>
-            <a href="<?= routeTo('crud/create', $params) ?>" class="btn btn-success">
+            <a href="<?= crudRoute('crud/create', $tableName) ?>" class="btn btn-success">
                 <i class="fa-solid fa-plus"></i> <?= __('crud.label.create') ?>
             </a>
         </div>

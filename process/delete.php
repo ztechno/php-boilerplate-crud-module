@@ -21,10 +21,5 @@ $title      = _ucwords(__("$module.label.$tableName"));
 
 set_flash_msg(['success'=>"$title berhasil dihapus"]);
 
-$params = ['table' => $tableName];
-if(isset($_GET['filter']))
-{
-    $params['filter'] = $_GET['filter'];
-}
-header('location:'.routeTo('crud/index',$params));
+header('location:'.crudRoute('crud/index',$tableName));
 die();
