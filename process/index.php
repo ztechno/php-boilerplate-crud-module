@@ -42,4 +42,4 @@ Page::setBreadcrumbs([
 
 Page::pushFoot("<script src='".asset('assets/crud/js/crud.js')."'></script>");
 
-return view('crud/views/index', compact('data', 'fields', 'tableName', 'success_msg', 'error_msg'));
+return view('crud/views/index', compact('data', 'fields', 'tableName', 'success_msg', 'error_msg', 'crudRepository'));

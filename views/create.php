@@ -3,7 +3,7 @@
     <div class="card-header d-flex flex-grow-1 align-items-center">
         <p class="h4 m-0"><?= __('crud.label.create') ?> <?php get_title() ?></p>
         <div class="right-button ms-auto">
-            <a href="<?= crudRoute('crud/index', $tableName) ?>" class="btn btn-warning">
+            <a href="<?= crudRoute('crud/index', $tableName) ?>" class="btn btn-warning btn-sm">
                 <?= __('crud.label.back') ?>
             </a>
         </div>

@@ -3,9 +3,11 @@
     <div class="card-header d-flex flex-grow-1 align-items-center">
         <p class="h4 m-0"><?php get_title() ?></p>
         <div class="right-button ms-auto">
-            <a href="<?= crudRoute('crud/create', $tableName) ?>" class="btn btn-success">
+            <?= $crudRepository->additionalButtonBeforeCreate() ?>
+            <a href="<?= crudRoute('crud/create', $tableName) ?>" class="btn btn-success btn-sm">
                 <i class="fa-solid fa-plus"></i> <?= __('crud.label.create') ?>
             </a>
+            <?= $crudRepository->additionalButtonAfterCreate() ?>
         </div>
     </div>
     <div class="card-body">

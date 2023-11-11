@@ -21,6 +21,26 @@ class CrudRepository
         $this->module = $module;
     }
 
+    function additionalButtonBeforeCreate()
+    {
+        $file = Utility::parentPath() . "modules/$this->module/hooks/additional-button-before-create-$this->table.php";
+        if(file_exists($file))
+        {
+            return require $file;
+        }
+        return ;
+    }
+    
+    function additionalButtonAfterCreate()
+    {
+        $file = Utility::parentPath() . "modules/$this->module/hooks/additional-button-after-create-$this->table.php";
+        if(file_exists($file))
+        {
+            return require $file;
+        }
+        return ;
+    }
+
     function beforeCreate(&$data)
     {
         $file = Utility::parentPath() . "modules/$this->module/hooks/before-create-$this->table.php";
@@ -212,6 +232,7 @@ class CrudRepository
                     $data_value = \Core\Form::getData($field['type'],$d->{$col},true);
                     if($field['type'] == 'number')
                     {
+                        $data_value = (int) $data_value;
                         $data_value = number_format($data_value);
                     }
 
