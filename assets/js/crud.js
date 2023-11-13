@@ -1,5 +1,5 @@
 $('.datatable-crud').dataTable({
-    stateSave:true,
+    // stateSave:true,
     pagingType: 'full_numbers_no_ellipses',
     processing: true,
     search: {
