@@ -198,7 +198,7 @@ class CrudRepository
 
                 $filter_query = implode(' AND ', $filter_query);
 
-                $where = (empty($where) ? 'WHERE ' : ' AND ') . $filter_query;
+                $where = (empty($where) || $where == "" ? 'WHERE ' : ' AND ') . $filter_query;
             }
 
             $this->db->query = "SELECT * FROM $this->table $where ORDER BY ".$col_order." ".$order[0]['dir']." LIMIT $start,$length";
