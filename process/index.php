@@ -14,7 +14,6 @@ $error_msg   = get_flash_msg('error');
 // get data
 $crudRepository = new CrudRepository($tableName);
 $crudRepository->setModule($module);
-$data           = $crudRepository->get();
 
 if(isset($_GET['draw']))
 {
@@ -42,4 +41,4 @@ Page::setBreadcrumbs([
 
 Page::pushFoot("<script src='".asset('assets/crud/js/crud.js')."'></script>");
 
-return view('crud/views/index', compact('data', 'fields', 'tableName', 'success_msg', 'error_msg', 'crudRepository'));
+return view('crud/views/index', compact('fields', 'tableName', 'success_msg', 'error_msg', 'crudRepository'));
