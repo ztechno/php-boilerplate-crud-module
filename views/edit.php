@@ -39,7 +39,10 @@
                 $label = _ucwords($label);
                 $fieldname = $type == 'file' ? $field : $tableName."[".$field."]";
                 $attr = array_merge($attr, ["placeholder"=>$label,"value"=>$old[$field]??$data->{$field}]);
-                
+                if(isset($attr['multiple']))
+                {
+                    $fieldname .= "[]";
+                }
             ?>
             <div class="form-group mb-3">
                 <label class="mb-2"><?=$label?></label>

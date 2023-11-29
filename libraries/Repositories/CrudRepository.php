@@ -24,6 +24,7 @@ class CrudRepository
     function additionalButtonBeforeCreate()
     {
         $file = Utility::parentPath() . "modules/$this->module/hooks/additional-button-before-create-$this->table.php";
+        $db   = $this->db;
         if(file_exists($file))
         {
             return require $file;
@@ -34,6 +35,7 @@ class CrudRepository
     function additionalButtonAfterCreate()
     {
         $file = Utility::parentPath() . "modules/$this->module/hooks/additional-button-after-create-$this->table.php";
+        $db   = $this->db;
         if(file_exists($file))
         {
             return require $file;
@@ -44,6 +46,7 @@ class CrudRepository
     function beforeCreate(&$data)
     {
         $file = Utility::parentPath() . "modules/$this->module/hooks/before-create-$this->table.php";
+        $db   = $this->db;
         if(file_exists($file))
         {
             require $file;
@@ -53,6 +56,7 @@ class CrudRepository
     function afterCreate(&$data)
     {
         $file = Utility::parentPath() . "modules/$this->module/hooks/after-create-$this->table.php";
+        $db   = $this->db;
         if(file_exists($file))
         {
             require $file;
@@ -62,6 +66,7 @@ class CrudRepository
     function beforeUpdate(&$data)
     {
         $file = Utility::parentPath() . "modules/$this->module/hooks/before-update-$this->table.php";
+        $db   = $this->db;
         if(file_exists($file))
         {
             require $file;
@@ -71,6 +76,7 @@ class CrudRepository
     function afterUpdate(&$data)
     {
         $file = Utility::parentPath() . "modules/$this->module/hooks/after-update-$this->table.php";
+        $db   = $this->db;
         if(file_exists($file))
         {
             require $file;
@@ -80,6 +86,7 @@ class CrudRepository
     function beforeDelete(&$data)
     {
         $file = Utility::parentPath() . "modules/$this->module/hooks/before-delete-$this->table.php";
+        $db   = $this->db;
         if(file_exists($file))
         {
             require $file;
@@ -89,6 +96,7 @@ class CrudRepository
     function afterDelete(&$data)
     {
         $file = Utility::parentPath() . "modules/$this->module/hooks/after-delete-$this->table.php";
+        $db   = $this->db;
         if(file_exists($file))
         {
             require $file;
@@ -98,6 +106,7 @@ class CrudRepository
     function actionButton($data)
     {
         $file = Utility::parentPath() . "modules/$this->module/hooks/action-button-$this->table.php";
+        $db   = $this->db;
         if(file_exists($file))
         {
             return require $file;

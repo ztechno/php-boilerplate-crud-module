@@ -8,3 +8,5 @@ $('.datatable-crud').dataTable({
     serverSide: true,
     ajax: location.href
 })
+
+$('select').select2()
