@@ -223,7 +223,7 @@ class CrudRepository
         
         foreach($data as $key => $d)
         {
-            $results[$key][] = $key+1;
+            $results[$key][] = $start+$key+1;
             foreach($columns as $col)
             {
                 $field = '';
