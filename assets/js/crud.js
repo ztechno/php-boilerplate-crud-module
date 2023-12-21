@@ -9,4 +9,8 @@ $('.datatable-crud').dataTable({
     ajax: location.href
 })
 
-$('select').select2()
+try {
+    $('select').select2()
+} catch (error) {
+    
+}
