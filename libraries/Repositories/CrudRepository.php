@@ -154,12 +154,12 @@ class CrudRepository
 
     function dataTable($fields, $customAction = false)
     {
-        $draw    = $_GET['draw'];
-        $start   = $_GET['start'];
-        $length  = $_GET['length'];
-        $search  = $_GET['search']['value'];
-        $order   = $_GET['order'];
-        $filter  = isset($_GET['filter']) ? $_GET['filter'] : [];
+        $draw    = Request::get('draw', 1);
+        $start   = Request::get('start', 0);
+        $length  = Request::get('length', 20);
+        $search  = Request::get('search.value', '');
+        $order   = Request::get('order', [['column' => 1,'dir' => 'asc']]);
+        $filter  = Request::get('filter', []);
         
         $columns = [];
         $search_columns = [];
@@ -328,8 +328,6 @@ class CrudRepository
             $where = "WHERE (".implode(' OR ',$_where).")";
         }
 
-        
-
         $col_order = $order[0]['column']-1;
         $col_order = $col_order < 0 ? 'id' : $columns[$col_order];
 
@@ -364,12 +362,11 @@ class CrudRepository
             ]);
         }
 
-
         $results = [];
         
         foreach($data as $key => $d)
         {
-            $results[$key][] = $start+$key+1;
+            $results[$key]['_data_index_key'] = $start+$key+1;
             foreach($columns as $col)
             {
                 $field = '';
@@ -393,7 +390,7 @@ class CrudRepository
 
                     if($field['type'] == 'file')
                     {
-                        $data_value = '<a href="'.asset($data_value).'" target="_blank">Lihat File</a>';
+                        $data_value = asset($data_value);
                     }
                 }
                 else
@@ -401,8 +398,39 @@ class CrudRepository
                     $data_value = $d->{$field};
                 }
 
-                $results[$key][] = $data_value;
+                $results[$key][$col] = $data_value;
             }
+
+            $action = [];
+
+            $action[] = $this->actionButton($d);
+
+            $params = ['table'=>$this->table,'id'=>$d->id];
+            if(isset($_GET['filter']))
+            {
+                $params['filter'] = $_GET['filter'];
+            }
+            if(is_allowed(parsePath(routeTo('crud/edit', ['table'=>$this->table])), auth()->id))
+            {
+                $action[] = [
+                    'name'   => 'edit',
+                    'label'  => __('crud.label.edit'),
+                    'route'  => 'crud/edit',
+                    'params' => $params
+                ];
+            }
+
+            if(is_allowed(parsePath(routeTo('crud/delete', ['table'=>$this->table])), auth()->id))
+            {
+                $action[] = [
+                    'name'   => 'delete',
+                    'label'  => __('crud.label.delete'),
+                    'route'  => 'crud/delete',
+                    'params' => $params
+                ];
+            }
+            
+            $results[$key]['actions'] = $action;
         }
 
         return [
