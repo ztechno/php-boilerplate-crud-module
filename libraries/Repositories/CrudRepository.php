@@ -3,6 +3,7 @@
 namespace Modules\Crud\Libraries\Repositories;
 
 use Core\Database;
+use Core\Request;
 use Core\Utility;
 
 class CrudRepository
@@ -286,6 +287,122 @@ class CrudRepository
 
             
             $results[$key][] = $action;
+        }
+
+        return [
+            "draw" => $draw,
+            "recordsTotal" => (int)$total,
+            "recordsFiltered" => (int)$total,
+            "data" => $results
+        ];
+    }
+
+    function dataTableApi($fields)
+    {
+        $draw    = Request::get('draw', 1);
+        $start   = Request::get('start', 0);
+        $length  = Request::get('length', 20);
+        $search  = Request::get('search.value', '');
+        $order   = Request::get('order', [['column' => 1,'dir' => 'asc']]);
+        $filter  = Request::get('filter', []);
+        
+        $columns = [];
+        $search_columns = [];
+        foreach($fields as $key => $field)
+        {
+            $columns[] = is_array($field) ? $key : $field;
+            if(is_array($field) && isset($field['search']) && !$field['search']) continue;
+            $search_columns[] = is_array($field) ? $key : $field;
+        }
+
+        $where = "";
+
+        if(!empty($search))
+        {
+            $_where = [];
+            foreach($search_columns as $col)
+            {
+                $_where[] = "$col LIKE '%$search%'";
+            }
+
+            $where = "WHERE (".implode(' OR ',$_where).")";
+        }
+
+        
+
+        $col_order = $order[0]['column']-1;
+        $col_order = $col_order < 0 ? 'id' : $columns[$col_order];
+
+        $hookFile = Utility::parentPath() . "modules/$this->module/hooks/index-$this->table.php";
+        if(file_exists($hookFile))
+        {
+            $db = $this->db;
+            $table = $this->table;
+            $override = require $hookFile;
+            extract($override);
+        }
+        else
+        {
+            if($filter)
+            {
+                $filter_query = [];
+                foreach($filter as $f_key => $f_value)
+                {
+                    $filter_query[] = "$f_key = '$f_value'";
+                }
+
+                $filter_query = implode(' AND ', $filter_query);
+
+                $where = (empty($where) || $where == "" ? 'WHERE ' : ' AND ') . $filter_query;
+            }
+
+            $this->db->query = "SELECT * FROM $this->table $where ORDER BY ".$col_order." ".$order[0]['dir']." LIMIT $start,$length";
+            $data  = $this->db->exec('all');
+    
+            $total = $this->db->exists($this->table,$where,[
+                $col_order => $order[0]['dir']
+            ]);
+        }
+
+
+        $results = [];
+        
+        foreach($data as $key => $d)
+        {
+            $results[$key][] = $start+$key+1;
+            foreach($columns as $col)
+            {
+                $field = '';
+                if(isset($fields[$col]))
+                {
+                    $field = $fields[$col];
+                }
+                else
+                {
+                    $field = $col;
+                }
+                $data_value = "";
+                if(is_array($field))
+                {
+                    $data_value = \Core\Form::getData($field['type'],$d->{$col},true);
+                    if($field['type'] == 'number')
+                    {
+                        $data_value = (int) $data_value;
+                        $data_value = number_format($data_value);
+                    }
+
+                    if($field['type'] == 'file')
+                    {
+                        $data_value = '<a href="'.asset($data_value).'" target="_blank">Lihat File</a>';
+                    }
+                }
+                else
+                {
+                    $data_value = $d->{$field};
+                }
+
+                $results[$key][] = $data_value;
+            }
         }
 
         return [
