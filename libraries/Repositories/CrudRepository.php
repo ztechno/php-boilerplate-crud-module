@@ -198,6 +198,8 @@ class CrudRepository
         }
         else
         {
+            $having = "";
+
             if($filter)
             {
                 $filter_query = [];
@@ -208,10 +210,10 @@ class CrudRepository
 
                 $filter_query = implode(' AND ', $filter_query);
 
-                $where = (empty($where) || $where == "" ? 'WHERE ' : ' AND ') . $filter_query;
+                $having = (empty($having) ? 'HAVING ' : ' AND ') . $filter_query;
             }
 
-            $this->db->query = "SELECT * FROM $this->table $where ORDER BY ".$col_order." ".$order[0]['dir']." LIMIT $start,$length";
+            $this->db->query = "SELECT * FROM $this->table $where $having ORDER BY ".$col_order." ".$order[0]['dir']." LIMIT $start,$length";
             $data  = $this->db->exec('all');
     
             $total = $this->db->exists($this->table,$where,[
@@ -341,6 +343,8 @@ class CrudRepository
         }
         else
         {
+            $having = "";
+
             if($filter)
             {
                 $filter_query = [];
@@ -351,10 +355,10 @@ class CrudRepository
 
                 $filter_query = implode(' AND ', $filter_query);
 
-                $where = (empty($where) || $where == "" ? 'WHERE ' : ' AND ') . $filter_query;
+                $having = (empty($having) ? 'HAVING ' : ' AND ') . $filter_query;
             }
 
-            $this->db->query = "SELECT * FROM $this->table $where ORDER BY ".$col_order." ".$order[0]['dir']." LIMIT $start,$length";
+            $this->db->query = "SELECT * FROM $this->table $where $having ORDER BY ".$col_order." ".$order[0]['dir']." LIMIT $start,$length";
             $data  = $this->db->exec('all');
     
             $total = $this->db->exists($this->table,$where,[
