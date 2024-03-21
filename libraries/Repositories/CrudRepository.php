@@ -405,9 +405,8 @@ class CrudRepository
                 $results[$key][$col] = $data_value;
             }
 
-            $action = [];
 
-            $action[] = $this->actionButton($d);
+            $action = array_merge([], $this->actionButton($d));
 
             $params = ['table'=>$this->table,'id'=>$d->id];
             if(isset($_GET['filter']))
