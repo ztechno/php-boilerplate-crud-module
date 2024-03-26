@@ -213,7 +213,7 @@ class CrudRepository
                 $having = (empty($having) ? 'HAVING ' : ' AND ') . $filter_query;
             }
 
-            $where .= $having;
+            $where = $where ." ". $having;
 
             $this->db->query = "SELECT * FROM $this->table $where $having ORDER BY ".$col_order." ".$order[0]['dir']." LIMIT $start,$length";
             $data  = $this->db->exec('all');
@@ -360,7 +360,7 @@ class CrudRepository
                 $having = (empty($having) ? 'HAVING ' : ' AND ') . $filter_query;
             }
 
-            $where .= $having;
+            $where = $where ." ". $having;
 
             $this->db->query = "SELECT * FROM $this->table $where $having ORDER BY ".$col_order." ".$order[0]['dir']." LIMIT $start,$length";
             $data  = $this->db->exec('all');
