@@ -215,7 +215,7 @@ class CrudRepository
 
             $where = $where ." ". $having;
 
-            $this->db->query = "SELECT * FROM $this->table $where $having ORDER BY ".$col_order." ".$order[0]['dir']." LIMIT $start,$length";
+            $this->db->query = "SELECT * FROM $this->table $where ORDER BY ".$col_order." ".$order[0]['dir']." LIMIT $start,$length";
             $data  = $this->db->exec('all');
     
             $total = $this->db->exists($this->table,$where,[
@@ -362,7 +362,7 @@ class CrudRepository
 
             $where = $where ." ". $having;
 
-            $this->db->query = "SELECT * FROM $this->table $where $having ORDER BY ".$col_order." ".$order[0]['dir']." LIMIT $start,$length";
+            $this->db->query = "SELECT * FROM $this->table $where ORDER BY ".$col_order." ".$order[0]['dir']." LIMIT $start,$length";
             $data  = $this->db->exec('all');
     
             $total = $this->db->exists($this->table,$where,[
