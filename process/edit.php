@@ -19,8 +19,9 @@ $crudRepository->setModule($module);
 
 if(Request::isMethod('POST'))
 {
+    $data = isset($_POST[$tableName]) ? $_POST[$tableName] : [];
 
-    $crudRepository->update($_POST[$tableName], [
+    $crudRepository->update($data, [
         'id' => $id
     ]);
 

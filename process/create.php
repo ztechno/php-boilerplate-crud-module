@@ -15,10 +15,10 @@ $old        = get_flash_msg('old');
 
 if(Request::isMethod('POST'))
 {
-
+    $data = isset($_POST[$tableName]) ? $_POST[$tableName] : [];
     $crudRepository = new CrudRepository($tableName);
     $crudRepository->setModule($module);
-    $crudRepository->create($_POST[$tableName]);
+    $crudRepository->create($data);
 
     set_flash_msg(['success'=>"$title berhasil ditambahkan"]);
 
