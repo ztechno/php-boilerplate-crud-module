@@ -58,6 +58,9 @@ Page::pushHead('<script src="https://cdn.tiny.cloud/1/rsb9a1wqmvtlmij61ssaqj3ttq
 Page::pushHead("<script>
 tinymce.init({
     selector: 'textarea:not(.select2-search__field)',
+    relative_urls : false,
+  remove_script_host : false,
+  convert_urls : true,
   plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
   toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
 });
