@@ -61,4 +61,6 @@ Page::pushHead('<style>.select2,.select2-selection{height:38px!important;} .sele
 Page::pushFoot('<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>');
 Page::pushFoot("<script src='".asset('assets/crud/js/crud.js')."'></script>");
 
+Page::pushHook('create');
+
 return view('crud/views/create', compact('fields', 'tableName', 'error_msg', 'old'));
