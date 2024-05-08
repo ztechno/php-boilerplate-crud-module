@@ -1,5 +1,6 @@
 <?php
 
+use Core\Event;
 use Core\Page;
 use Core\Request;
 use Modules\Crud\Libraries\Repositories\CrudRepository;
@@ -12,12 +13,17 @@ $fields     = $table->getFields();
 $module     = $table->getModule();
 
 $crudRepository = new CrudRepository($tableName);
+$data = $crudRepository->find([
+    'id' => $id
+]);
 $crudRepository->setModule($module);
 $crudRepository->delete([
     'id' => $id
 ]);
 
 $title      = _ucwords(__("$module.label.$tableName"));
+
+Event::trigger('crud/delete/'.$module.'/'.$tableName, $data);
 
 set_flash_msg(['success'=>"$title berhasil dihapus"]);
 

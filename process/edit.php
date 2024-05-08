@@ -1,5 +1,6 @@
 <?php
 
+use Core\Event;
 use Core\Page;
 use Core\Request;
 use Modules\Crud\Libraries\Repositories\CrudRepository;
@@ -21,9 +22,11 @@ if(Request::isMethod('POST'))
 {
     $data = isset($_POST[$tableName]) ? $_POST[$tableName] : [];
 
-    $crudRepository->update($data, [
+    $data = $crudRepository->update($data, [
         'id' => $id
     ]);
+
+    Event::trigger('crud/edit/'.$module.'/'.$tableName, $data);
 
     set_flash_msg(['success'=>"$title berhasil diupdate"]);
 

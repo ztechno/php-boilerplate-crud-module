@@ -1,5 +1,6 @@
 <?php
 
+use Core\Event;
 use Core\Page;
 use Core\Request;
 use Modules\Crud\Libraries\Repositories\CrudRepository;
@@ -18,7 +19,9 @@ if(Request::isMethod('POST'))
     $data = isset($_POST[$tableName]) ? $_POST[$tableName] : [];
     $crudRepository = new CrudRepository($tableName);
     $crudRepository->setModule($module);
-    $crudRepository->create($data);
+    $create = $crudRepository->create($data);
+
+    Event::trigger('crud/create/'.$module.'/'.$tableName, $create);
 
     set_flash_msg(['success'=>"$title berhasil ditambahkan"]);
 
