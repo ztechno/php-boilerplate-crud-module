@@ -15,3 +15,8 @@ if($auth && $route == 'auth/login')
     header("location: ". $AUTH_AFTER_LOGIN_SUCCESS);
     die();
 }
+
+if(!in_array($route, $authRoute) && $auth && !is_allowed($route, $auth->id))
+{
+    die('Error 403. Unauthorized');
+}
