@@ -3,6 +3,9 @@
 table td img {
     max-width:150px;
 }
+table.table td, table.table th {
+    white-space:nowrap;
+}
 </style>
 <div class="card">
     <div class="card-header d-flex flex-grow-1 align-items-center">
@@ -24,8 +27,8 @@ table td img {
         <?php if ($error_msg) : ?>
         <div class="alert alert-danger"><?= $error_msg ?></div>
         <?php endif ?>
-        <div class="table-responsive table-hover table-sales">
-            <table class="table table-bordered datatable-crud" style="width:100%">
+        <div class="table-responsive">
+            <table class="table table-striped datatable-crud" style="width:100%">
                 <thead>
                     <tr>
                         <th width="20px">#</th>
