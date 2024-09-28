@@ -6,7 +6,11 @@ $('.datatable-crud').dataTable({
         return: true
     },
     serverSide: true,
-    ajax: location.href
+    ajax: location.href,
+    aLengthMenu: [
+        [25, 50, 100, 200, -1],
+        [25, 50, 100, 200, "All"]
+    ],
 })
 
 try {
