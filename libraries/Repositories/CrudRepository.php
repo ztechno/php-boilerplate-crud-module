@@ -252,7 +252,14 @@ class CrudRepository
 
                     if($field['type'] == 'file')
                     {
-                        $data_value = '<a href="'.asset($data_value).'" target="_blank">Lihat File</a>';
+                        if($data_value)
+                        {
+                            $data_value = '<a href="'.asset($data_value).'" target="_blank">Lihat File</a>';
+                        }
+                        else
+                        {
+                            $data_value = '<i>Tidak ada file</i>';
+                        }
                     }
                 }
                 else
